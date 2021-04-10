@@ -154,7 +154,7 @@ class Game {
     
     while(this.playerCounterIsRunning()) {
       this.selectPlayerInFront();
-      console.log(`It's time for ${this.playerInFront.name} (${this.playerInFront.constructor.name}) to play !`)
+      console.log(this.playerInFront.isHuman() ? `It's time for you human` : `It's time for ${this.playerInFront.name}`, `(${this.playerInFront.constructor.name}) to play !`)
       let choose = null;
       if (this.playerInFront.type == 'human')
         choose = this.chooseEnemyAndAttackType();
@@ -185,15 +185,15 @@ class Game {
   chooseEnemyAndAttackType() {
     console.log('------- Choise attack type --------');
     console.log('1. Deal damage.');
-    console.log('2. Special attack.');
+    if (this.playerInFront.mana > 0) console.log('2. Special attack.');
     
     let attackType = '';
     let message = '';
     do {
       attackType = window.prompt(`${message}Choose your attack style !`);
-      if (attackType != '1' && attackType != '2')
-      message = 'Wrong answer ! Try again. ';
-    } while (attackType != '1' && attackType != '2')
+      if (attackType != '1' && (attackType != '2' || this.playerInFront.mana <= 0))
+        message = 'Wrong answer ! Try again. ';
+    } while (attackType != '1' && (attackType != '2' || this.playerInFront.mana <= 0))
     
     console.log('---------- Choise enemy -----------');
     let enemies = this.players.filter(enemy => enemy != this.playerInFront && enemy.isAlive());

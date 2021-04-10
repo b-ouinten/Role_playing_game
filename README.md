@@ -4,6 +4,6 @@ The game is to get five bot fighters to fight with each other plus a human fight
 
 Concerning the five fighters the opponents are chosen randomly but the human fighter is prompt to choose his opponent.
 
-You'll be prompted to choose the number of turns.
+You'll be prompted to choose the number of turns also.
 
 #### It is implemented under OOP paradigm.
