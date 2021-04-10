@@ -76,7 +76,7 @@ class Character {
     return (this.type == 'bot');
   }
 
-  isHumain() {
-    return (this.type == 'humain');
+  isHuman() {
+    return (this.type == 'human');
   }
 }

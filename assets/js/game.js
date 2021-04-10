@@ -7,6 +7,8 @@ class Game {
   characterKindAlert = getElementById('characterKindAlert');
   userCharacterInfoPanel = getElementById('user-character-info');
   nextTurnBtn = getElementById('start-another-turn-btn');
+  turnsNumberSelector = getElementById('turns-number-selector');
+  turnsNumberAlert = getElementById('turns-number-alert');
   
   constructor(turnLeft = 3) {
     this.turnLeft = turnLeft;
@@ -30,23 +32,34 @@ class Game {
       hideElement(this.userCharacterPropertiesform);
       showElement(this.userCharacterInfoPanel);
       this.createUserCharacter(userCharacterProperties);
-      this.userCharacter.type = 'humain';
+      this.userCharacter.type = 'human';
+      this.turnLeft = this.getTurnsNumber();
       this.play();
     }
+  }
+
+  getTurnsNumber() {
+    return Number(this.turnsNumberSelector.value);
   }
   
   isUserCharacterPropertiesCompliant(properties) {
     let { pseudo, characterKind } = properties;
     if (pseudo == '')
-    showElement(this.pseudoAlert);
+      showElement(this.pseudoAlert);
     else
-    hideElement(this.pseudoAlert);
-    if (characterKind  == '')
-    showElement(this.characterKindAlert);
-    else
-    hideElement(this.characterKindAlert);
+      hideElement(this.pseudoAlert);
     
-    return !(pseudo == '' || characterKind == '');
+    if (characterKind  == '')
+      showElement(this.characterKindAlert);
+    else
+      hideElement(this.characterKindAlert);
+    
+    if (!this.getTurnsNumber())
+      showElement(this.turnsNumberAlert);
+    else
+      hideElement(this.turnsNumberAlert);
+
+    return !(pseudo == '' || characterKind == '' || !this.getTurnsNumber());
   }
   
   createUserCharacter(userCharacterProperties) {
@@ -143,7 +156,7 @@ class Game {
       this.selectPlayerInFront();
       console.log(`It's time for ${this.playerInFront.name} (${this.playerInFront.constructor.name}) to play !`)
       let choose = null;
-      if (this.playerInFront.type == 'humain')
+      if (this.playerInFront.type == 'human')
         choose = this.chooseEnemyAndAttackType();
       else
         choose = this.randomChoose();
@@ -226,9 +239,9 @@ class Game {
         break;
     }
 
-    if (this.playerInFront.isHumain())
+    if (this.playerInFront.isHuman())
       this.playerInFront.displayInformations();
-    else if (enemy.isHumain())
+    else if (enemy.isHuman())
       enemy.displayInformations();
 
     console.log('---------------------------------------------');
